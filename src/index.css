@@ -8,6 +8,12 @@ body {
 
 #root {
   @apply w-full h-full rounded-2xl bg-[rgba(41,57,96,0.6)] text-white;
-  -webkit-app-region: drag;
   overflow: hidden;
+}
+
+.titlebar {
+  @apply h-8 flex items-center align-middle justify-between bg-[rgba(255,255,255,0.1)];
+}
+.draggable {
+  -webkit-app-region: drag;
 }
