@@ -1,43 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { basicSetup } from "codemirror";
+import { EditorView } from "@codemirror/view";
+import { vim } from "@replit/codemirror-vim";
 
 function App() {
-  const [isMaximized, setIsMaximized] = useState(false);
+  const editorRef = useRef(null); // this is just for the container
+  const viewRef = (useRef < EditorView) | (null > null); // this is the actual editor
+
+  const test = () => {
+    console.log(viewRef.current?.state.doc.toString());
+  };
 
   useEffect(() => {
-    // Listen for window state changes from main process
-    window.windowState?.onStateChange((event, maximized) => {
-      setIsMaximized(maximized);
-    });
+    // Setup CodeMirror editor once
+    if (editorRef.current && !viewRef.current) {
+      viewRef.current = new EditorView({
+        doc: "Start document",
+        parent: editorRef.current,
+        extensions: [basicSetup, vim()],
+      });
+    }
 
-    // Cleanup listener on unmount
+    // Cleanup on unmount
     return () => {
-      window.windowState?.removeListener();
+      if (viewRef.current) {
+        viewRef.current.destroy();
+        viewRef.current = null;
+      }
     };
   }, []);
 
-  const func = async () => {
-    console.log("tryna ping");
-    // const response = await window.versions.ping();
-    // console.log(response); // prints out 'pong'
-  };
-
-  const handleMaximize = () => {
-    window.versions.maximizeWindow();
-  };
-
   return (
-    <div className={`w-full h-screen ${isMaximized ? "maximized" : ""}`}>
+    <div className={`w-full h-screen`}>
       <div className="titlebar">
         <p className="draggable h-full flex-1 ">Cool titlebar</p>
         <button onClick={() => window.versions.minimizeWindow()}>
           Minimize
         </button>
-        <button onClick={handleMaximize}>
-          {isMaximized ? "Restore" : "Maximize"}
-        </button>
+        <button onClick={window.versions.maximizeWindow()}>Maximize</button>
         <button onClick={() => window.versions.closeWindow()}>Close</button>
       </div>
-      <button onClick={() => func()}>click meee</button>
+
+      {/* CodeMirror editor container */}
+      <div
+        ref={editorRef}
+        style={{
+          height: "calc(100vh - 40px)", // subtract titlebar height (adjust as needed)
+          width: "100%",
+        }}
+      />
+      <button className="bg-amber-500">test button</button>
     </div>
   );
 }
