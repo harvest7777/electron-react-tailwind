@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { basicSetup } from "codemirror";
-import { EditorView } from "@codemirror/view";
+import { EditorView, keymap } from "@codemirror/view";
+import { indentWithTab } from "@codemirror/commands";
 import { vim } from "@replit/codemirror-vim";
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
       viewRef.current = new EditorView({
         doc: "Start document",
         parent: editorRef.current,
-        extensions: [basicSetup, vim()],
+        extensions: [basicSetup, keymap.of([indentWithTab]), vim()],
       });
     }
 
@@ -49,7 +50,7 @@ function App() {
       <div
         ref={editorRef}
         style={{
-          height: "calc(100vh - 40px)", // subtract titlebar height (adjust as needed)
+          height: "80vh", // subtract titlebar height (adjust as needed)
           width: "100%",
         }}
       />
