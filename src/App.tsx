@@ -4,8 +4,8 @@ import { EditorView } from "@codemirror/view";
 import { vim } from "@replit/codemirror-vim";
 
 function App() {
-  const editorRef = useRef(null); // this is just for the container
-  const viewRef = useRef(null); // this is the actual editor
+  const editorRef = useRef<HTMLDivElement>(null); // this is just for the container
+  const viewRef = useRef<EditorView | null>(null); // this is the actual editor
 
   const test = () => {
     console.log(viewRef.current?.state.doc.toString());
@@ -34,13 +34,15 @@ function App() {
     <div className={`w-full h-screen`}>
       <div className="titlebar">
         <p className="draggable h-full flex-1 ">Cool titlebar</p>
-        <button onClick={() => window.versions.minimizeWindow()}>
+        <button onClick={() => (window as any).versions?.minimizeWindow?.()}>
           Minimize
         </button>
-        <button onClick={() => window.versions.maximizeWindow()}>
+        <button onClick={() => (window as any).versions?.maximizeWindow?.()}>
           Maximize
         </button>
-        <button onClick={() => window.versions.closeWindow()}>Close</button>
+        <button onClick={() => (window as any).versions?.closeWindow?.()}>
+          Close
+        </button>
       </div>
 
       {/* CodeMirror editor container */}

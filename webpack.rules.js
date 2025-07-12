@@ -17,6 +17,16 @@ module.exports = [
     },
   },
   {
+    test: /\.tsx?$/,
+    exclude: /(node_modules|.webpack)/,
+    use: {
+      loader: "ts-loader",
+      options: {
+        transpileOnly: true,
+      },
+    },
+  },
+  {
     test: /[/\\]node_modules[/\\].+\.(m?js|node)$/,
     parser: { amd: false },
     use: {
