@@ -5,7 +5,7 @@ import { vim } from "@replit/codemirror-vim";
 
 function App() {
   const editorRef = useRef(null); // this is just for the container
-  const viewRef = (useRef < EditorView) | (null > null); // this is the actual editor
+  const viewRef = useRef(null); // this is the actual editor
 
   const test = () => {
     console.log(viewRef.current?.state.doc.toString());
@@ -37,7 +37,9 @@ function App() {
         <button onClick={() => window.versions.minimizeWindow()}>
           Minimize
         </button>
-        <button onClick={window.versions.maximizeWindow()}>Maximize</button>
+        <button onClick={() => window.versions.maximizeWindow()}>
+          Maximize
+        </button>
         <button onClick={() => window.versions.closeWindow()}>Close</button>
       </div>
 
@@ -49,7 +51,9 @@ function App() {
           width: "100%",
         }}
       />
-      <button className="bg-amber-500">test button</button>
+      <button className="bg-amber-500" onClick={test}>
+        test button
+      </button>
     </div>
   );
 }
