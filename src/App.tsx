@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
 import { indentWithTab } from "@codemirror/commands";
+import { markdown } from "@codemirror/lang-markdown";
 import { vim } from "@replit/codemirror-vim";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
       viewRef.current = new EditorView({
         doc: "Start document",
         parent: editorRef.current,
-        extensions: [basicSetup, keymap.of([indentWithTab]), vim()],
+        extensions: [basicSetup, keymap.of([indentWithTab]), vim(), markdown()],
       });
     }
 
